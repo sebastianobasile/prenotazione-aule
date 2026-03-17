@@ -1,0 +1,30 @@
+{
+    "password_valida": "Scuola2026",
+    "password_admin": "Admin2026",
+    "email_responsabili": "email@tuascuola.edu.it",
+    "visibilita_pubblica": false,
+    "data_cambio_pass": "",
+    "orari_aule": {
+        "Aula Magna": {
+            "colore": "#0056b3",
+            "inizio": "08:00",
+            "fine": "14:00",
+            "data_inizio": "2026-09-01",
+            "data_fine": "2027-06-30"
+        },
+        "Laboratorio Informatica": {
+            "colore": "#28a745",
+            "inizio": "08:00",
+            "fine": "14:00",
+            "data_inizio": "2026-09-01",
+            "data_fine": "2027-06-30"
+        },
+        "Palestra": {
+            "colore": "#fd7e14",
+            "inizio": "08:00",
+            "fine": "17:00",
+            "data_inizio": "2026-09-01",
+            "data_fine": "2027-06-30"
+        }
+    }
+}

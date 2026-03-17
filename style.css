@@ -1,0 +1,204 @@
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #333; margin: 0; padding: 20px; }
+.container { max-width: 1200px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
+h1 { color: #0056b3; margin: 0; font-size: 1.8em; }
+header p { margin: 0; color: #666; }
+
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+.btn { padding: 8px 16px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold; }
+.btn.secondary { background: #5a6268; }
+
+.filtri { margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; font-size: 0.9em; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
+th { background: #0056b3; color: white; padding: 10px; text-align: left; }
+td { border-bottom: 1px solid #eee; padding: 8px 10px; }
+tr:hover { background: #f9f9f9; }
+
+/* Forza il testo su una riga */
+.nowrap { white-space: nowrap; }
+
+/* Gestione Note: tronca se troppo lungo per non rompere la riga */
+.cell-note { 
+    max-width: 250px; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    color: #666; 
+    font-size: 0.9em; 
+}
+
+.badge { background: #e7f3ff; color: #0056b3; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 0.85em; white-space: nowrap; }
+.btn-sm { padding: 4px 8px; background: #f8f9fa; border: 1px solid #ddd; color: #555; text-decoration: none; border-radius: 4px; font-size: 0.85em; }
+
+.alert { padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 0.9em; }
+.successo { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+.logout { color: #dc3545; text-decoration: none; font-size: 0.9em; font-weight: bold; }
+
+/* --- REGOLE PER LA STAMPA PDF --- */
+@media print {
+    /* Nascondi tutto ciò che non serve in bacheca */
+    .nav-actions, .filtri, .alert, .logout, .btn-sm, header p, footer {
+        display: none !important;
+    }
+    
+    /* Rendi il contenitore a tutta pagina */
+    body { background: white; padding: 0; margin: 0; }
+    .container { 
+        width: 100%; 
+        max-width: 100%; 
+        box-shadow: none; 
+        padding: 0; 
+    }
+
+    h1 { 
+        text-align: center; 
+        font-size: 22pt; 
+        margin-bottom: 20px; 
+    }
+
+    /* Espandi la tabella e le note */
+    table { width: 100%; border: 1px solid #000; }
+    th, td { border: 1px solid #ddd; padding: 10px; font-size: 11pt; }
+    
+    .cell-note { 
+        max-width: none; 
+        white-space: normal; 
+        overflow: visible; 
+    }
+
+    /* Evita di tagliare le righe tra una pagina e l'altra */
+    tr { page-break-inside: avoid; }
+}
+
+/* --- STILI SPECIFICI PER PRENOTA.PHP --- */
+
+/* Container del modulo: moderno, spazioso e centrale */
+.container-form {
+    max-width: 1000px; /* Più largo per le colonne */
+    margin: 50px auto;
+    background: white;
+    padding: 50px; /* Tanto respiro */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Header del modulo centrato */
+.form-header {
+    text-align: center;
+    border: none;
+    margin-bottom: 40px;
+    padding-bottom: 0;
+}
+
+.nuova-prenotazione-title {
+    color: #0056b3;
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.nuova-prenotazione-subtitle {
+    margin: 10px 0 0;
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* La struttura multicolonna del form */
+.form-multi-column {
+    display: flex;
+    gap: 40px; /* Grandi spazi tra le colonne */
+    flex-wrap: wrap; /* Per reattività sui cellulari */
+}
+
+/* Ogni colonna occupa spazio uguale */
+.form-col-details, .form-col-notes {
+    flex: 1;
+    min-width: 300px; /* Per stacking su schermi piccoli */
+}
+
+/* Stile per i gruppi di form e le label */
+.form-group { margin-bottom: 25px; } /* Più spazio tra i gruppi */
+.form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #444; font-size: 0.95em; }
+
+/* Stile moderno per tutti gli input */
+.form-multi-column input,
+.form-multi-column select,
+.form-multi-column textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px; /* Evita zoom su mobile */
+    box-sizing: border-box;
+    background: #fff;
+    transition: 0.2s;
+}
+
+.form-multi-column input:focus, 
+.form-multi-column select:focus, 
+.form-multi-column textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    outline: none;
+}
+
+/* Sotto-riga per gli orari */
+.form-row-orari { display: flex; gap: 20px; }
+.form-time-input { flex: 1; }
+.label-inside { font-size: 0.8em; color: #888; font-weight: normal; margin-bottom: 4px; display: block; }
+
+/* Azioni form in basso */
+.form-actions-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border:none;
+    border-radius: 6px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.btn-confirm { background: #28a745; font-weight: bold; }
+.btn-confirm:hover { background: #218838; }
+
+/* Link torna indietro moderno */
+.back-link-modern {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.95em;
+    transition: 0.2s;
+}
+.back-link-modern:hover { color: #000; }
+
+/* Alert moderno per conflitto */
+.alert.err-modern {
+    background: #fdf2f2;
+    color: #c0392b;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 6px solid #e74c3c;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Footer del form */
+.form-footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #aaa;
+    font-size: 0.85em;
+}
