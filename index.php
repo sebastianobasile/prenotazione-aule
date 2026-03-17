@@ -94,34 +94,178 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
 <title>Tabellone Prenotazioni</title>
 <link rel="stylesheet" href="style.css">
 <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; }
-    .info-limiti { background:#fff3cd; color:#856404; padding:12px; border-radius:6px; margin-bottom:20px; font-size:14px; border:1px solid #ffeeba; display:none; }
-    .gestione-cella { display:flex; flex-direction:column; align-items:center; gap:2px; min-width:60px; }
-    .gestione-cella a, .gestione-cella button { text-decoration:none !important; font-size:1.1rem; display:inline-block; margin:0 2px; line-height:1; background:none; border:none; cursor:pointer; padding:0; }
-    .admin-label { display:block; font-size:7px; color:#999; font-weight:normal; text-transform:uppercase; margin-top:4px !important; line-height:1; }
-    .timer-badge { font-size:10px; color:#d35400; font-weight:bold; }
-    header h1 { margin-bottom:10px !important; }
-    .scuola-print { display:block; font-weight:bold; font-size:1.1rem; color:#555; margin-top:5px; margin-bottom:25px; }
-    table { border-collapse:collapse; width:100%; background:white; table-layout:fixed; box-shadow:0 2px 5px rgba(0,0,0,0.05); }
-    th { background:#f8f9fa !important; color:#333 !important; text-transform:uppercase; font-size:0.85rem; border:1px solid #dee2e6; padding:12px 8px; }
-    td { border:1px solid #dee2e6; padding:8px; font-size:0.9rem; word-wrap:break-word; }
+    /* ── Base ── */
+    body {
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: #f0f4f8;
+        font-size: 14px;
+        color: #1a1a2e;
+    }
+
+    /* ── Contenitore ── */
+    .container {
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0,0,0,.09);
+        padding: 28px 32px;
+    }
+
+    /* ── Header ── */
+    header { border-bottom: 2px solid #e8edf2 !important; padding-bottom: 16px !important; margin-bottom: 22px !important; }
+    header h1 { font-size: 1.55rem !important; font-weight: 800; color: #0056b3; letter-spacing: -.3px; margin-bottom: 4px !important; }
+    .scuola-print { font-size: .9rem !important; color: #6b7280 !important; font-weight: 500; margin-bottom: 0 !important; }
+
+    /* ── Pulsanti header ── */
+    .btn { border-radius: 6px !important; font-size: .82rem !important; padding: 8px 16px !important; letter-spacing: .2px; }
+
+    /* ── Form nuova prenotazione ── */
+    .area-prenota {
+        background: #f0f7ff;
+        border: 1.5px solid #c8dff7;
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin-bottom: 18px;
+    }
+    .area-prenota h3 { font-size: .92rem; font-weight: 700; color: #1e3a6e; margin-bottom: 14px; }
+    .area-prenota label { font-size: .72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: .4px; }
+    .area-prenota input, .area-prenota select {
+        border: 1.5px solid #d1dce8 !important;
+        border-radius: 6px !important;
+        padding: 8px 10px !important;
+        font-size: .88rem !important;
+        transition: border-color .15s, box-shadow .15s;
+    }
+    .area-prenota input:focus, .area-prenota select:focus {
+        outline: none;
+        border-color: #0056b3 !important;
+        box-shadow: 0 0 0 3px rgba(0,86,179,.10);
+    }
+    .info-limiti {
+        background: #fffbeb; color: #92400e; padding: 10px 14px;
+        border-radius: 6px; margin-bottom: 14px; font-size: .82rem;
+        border: 1px solid #fde68a; display: none;
+    }
+
+    /* ── Filtro ── */
+    .filtro-stampa {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px;
+        padding: 12px 16px !important;
+        margin-bottom: 12px;
+        font-size: .85rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .filtro-stampa select {
+        padding: 6px 10px !important;
+        border: 1.5px solid #d1dce8;
+        border-radius: 6px;
+        font-size: .85rem;
+        background: white;
+    }
+
+    /* ── Tabella ── */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        background: white;
+        table-layout: fixed;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 8px rgba(0,0,0,.07);
+    }
+    th {
+        background: #0056b3 !important;
+        color: white !important;
+        text-transform: uppercase;
+        font-size: .72rem !important;
+        font-weight: 700;
+        letter-spacing: .5px;
+        padding: 12px 10px !important;
+        border: none !important;
+    }
+    td {
+        border: none !important;
+        border-bottom: 1px solid #f1f5f9 !important;
+        padding: 11px 10px !important;
+        font-size: .88rem;
+        vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none !important; }
+    tbody tr:hover { background: #f8fbff !important; }
+    tbody tr:nth-child(even) { background: #fafcff; }
+
     th:nth-child(1), td:nth-child(1) { width:20%; }
     th:nth-child(2), td:nth-child(2) { width:10%; }
     th:nth-child(3), td:nth-child(3) { width:12%; }
     th:nth-child(4), td:nth-child(4) { width:23%; }
     th:nth-child(5), td:nth-child(5) { width:27%; }
     th:nth-child(6), td:nth-child(6) { width:8%; }
-    .filtro-stampa { background:#fff; padding:15px; border-radius:8px; margin-bottom:10px; border:1px solid #dee2e6; }
+
+    /* ── Gestione cella ── */
+    .gestione-cella { display:flex; flex-direction:column; align-items:center; gap:2px; min-width:60px; }
+    .gestione-cella a, .gestione-cella button {
+        text-decoration:none !important; font-size:1rem; display:inline-block;
+        margin:0 2px; line-height:1; background:none; border:none;
+        cursor:pointer; padding:3px; border-radius:4px; transition: background .12s;
+    }
+    .gestione-cella a:hover, .gestione-cella button:hover { background:#f1f5f9; }
+    .admin-label { display:block; font-size:7px; color:#aaa; font-weight:700; text-transform:uppercase; margin-top:3px !important; letter-spacing:.4px; }
+    .timer-badge { font-size:.72rem; color:#d35400; font-weight:700; font-family:monospace; }
+
+    /* ── Tooltip icona "i" ── */
+    .tip-wrap { position:relative; }
+    .tip-box {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e3a6e;
+        color: white;
+        font-size: .78rem;
+        font-weight: 500;
+        padding: 6px 11px;
+        border-radius: 6px;
+        white-space: nowrap;
+        box-shadow: 0 3px 10px rgba(0,0,0,.2);
+        pointer-events: none;
+        z-index: 100;
+    }
+    .tip-box::after {
+        content: '';
+        position: absolute;
+        top: 100%; left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: #1e3a6e;
+    }
+    .tip-wrap:hover .tip-box { display: block; }
+
+    /* ── Responsive mobile ── */
+    @media (max-width: 768px) {
+        form[onsubmit] { grid-template-columns: 1fr 1fr !important; }
+        form[onsubmit] button { grid-column: 1 / -1; }
+    }
+    @media (max-width: 480px) {
+        form[onsubmit] { grid-template-columns: 1fr !important; }
+    }
+
+    /* ── Stampa ── */
     @media print {
-        .no-print, .area-prenota, .nav-actions, .alert, #box-limiti, .filtro-stampa, th:last-child, td:last-child { display:none !important; }
+        .no-print, .area-prenota, .nav-actions, .alert, #box-limiti,
+        .filtro-stampa, th:last-child, td:last-child { display:none !important; }
         header { display:block !important; text-align:center !important; margin-bottom:20px; }
-        header h1 { font-size:18pt !important; margin-bottom:8px; }
-        .scuola-print { display:block !important; font-size:13pt; color:black; text-align:center; margin-top:5px; }
+        header h1 { font-size:18pt !important; margin-bottom:8px; color:#000 !important; }
+        .scuola-print { display:block !important; font-size:13pt; color:black !important; text-align:center; }
         body { background:white !important; padding:0; }
-        table { border:1px solid black !important; box-shadow:none; margin-top:0; }
-        th { background:#eee !important; border:1px solid black !important; font-size:9pt; }
-        td { border:1px solid black !important; font-size:9pt; }
-        td span { background:transparent !important; color:black !important; padding:0 !important; font-weight:bold !important; border:none !important; }
+        .container { box-shadow:none !important; padding:0 !important; border-radius:0 !important; }
+        table { border:1px solid #999 !important; box-shadow:none; border-radius:0 !important; overflow:visible !important; }
+        th { background:#ddd !important; color:#000 !important; border:1px solid #999 !important; font-size:9pt !important; }
+        td { border:1px solid #ccc !important; font-size:9pt !important; }
+        td span { background:transparent !important; color:#000 !important; padding:0 !important; font-weight:bold !important; border:none !important; }
+        tr { page-break-inside:avoid; }
     }
 </style>
 </head>
@@ -133,12 +277,12 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
             <p class="scuola-print">3° I.C. Capuana-De Amicis – Avola (SR)</p>
         </div>
         <div class="nav-actions no-print">
-            <button onclick="window.print();" class="btn">🖨️ Stampa PDF</button>
+            <button onclick="window.print();" class="btn" style="background:#0056b3; color:white;">🖨️ Stampa PDF</button>
             <?php if ($loggato): ?>
                 <?php if ($is_admin): ?>
                     <a href="admin_settings.php" class="btn" style="background:#6c757d; color:white;">⚙️ Configurazione</a>
                 <?php endif; ?>
-                <a href="logout.php" style="color:red; margin-left:15px;">Esci</a>
+                <a href="logout.php" style="color:#dc3545; font-size:.82rem; font-weight:600; text-decoration:none; margin-left:10px; padding:8px 4px;">Esci</a>
             <?php else: ?>
                 <a href="login.php" class="btn" style="background:#007bff; color:white;">➕ Nuova Prenotazione</a>
             <?php endif; ?>
@@ -147,19 +291,17 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
 
     <?php if ($loggato): ?>
     <section class="area-prenota no-print">
-        <h3><?= $edit_id ? "📝 Modifica" : "+ Nuova Prenotazione" ?></h3>
+        <h3 style="font-size:.88rem; font-weight:700; color:#1e3a6e; margin-bottom:10px;"><?= $edit_id ? "📝 Modifica" : "+ Nuova Prenotazione" ?></h3>
         <div id="box-limiti" class="info-limiti"></div>
-        <form method="post" onsubmit="return validaOrario()" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:15px;">
-            <input type="hidden" name="csrf_token"  value="<?= generaCSRF() ?>">
-            <input type="hidden" name="id_univoco"  value="<?= htmlspecialchars($edit_id) ?>">
-            <div>
-                <label>Docente</label><br>
-                <input type="text" name="docente" value="<?= htmlspecialchars($val['docente']) ?>" required style="width:100%">
-            </div>
-            <div>
-                <label>Ambiente / Aula</label><br>
-                <select name="aula" id="selAula" required style="width:100%" onchange="aggiornaLimiti()">
-                    <option value="">Scegli...</option>
+        <form method="post" onsubmit="return validaOrario()">
+            <input type="hidden" name="csrf_token" value="<?= generaCSRF() ?>">
+            <input type="hidden" name="id_univoco" value="<?= htmlspecialchars($edit_id) ?>">
+
+            <!-- Riga 1: campi principali -->
+            <div style="display:flex; gap:10px; margin-bottom:8px; flex-wrap:nowrap;">
+                <input type="text"   name="docente"    value="<?= htmlspecialchars($val['docente']) ?>" required placeholder="Docente" style="flex:2; min-width:0;">
+                <select name="aula" id="selAula" required onchange="aggiornaLimiti()" style="flex:2; min-width:0;">
+                    <option value="">Scegli aula…</option>
                     <?php foreach ($orari_aule_config as $nome => $c): ?>
                         <option value="<?= htmlspecialchars($nome) ?>"
                             data-ini="<?= $c['inizio'] ?>" data-fin="<?= $c['fine'] ?>"
@@ -170,14 +312,24 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <input type="date"  name="giorno"     value="<?= $val['giorno'] ?>"      required  style="flex:1.4; min-width:0;">
+                <input type="time"  name="ora_inizio" id="ora_inizio" value="<?= $val['ora_inizio'] ?>" required style="flex:1; min-width:0;">
+                <span style="flex-shrink:0; position:relative; display:inline-flex; align-items:center;" class="tip-wrap">
+                    <span style="width:16px; height:16px; background:#0056b3; color:white; border-radius:50%; font-size:.65rem; font-weight:800; display:flex; align-items:center; justify-content:center; cursor:default; user-select:none;">i</span>
+                    <span class="tip-box">🕐 Orario di <strong>inizio</strong> prenotazione</span>
+                </span>
+                <input type="time"  name="ora_fine"   id="ora_fine"   value="<?= $val['ora_fine'] ?>"   required style="flex:1; min-width:0;">
+                <span style="flex-shrink:0; position:relative; display:inline-flex; align-items:center;" class="tip-wrap">
+                    <span style="width:16px; height:16px; background:#0056b3; color:white; border-radius:50%; font-size:.65rem; font-weight:800; display:flex; align-items:center; justify-content:center; cursor:default; user-select:none;">i</span>
+                    <span class="tip-box">🕐 Orario di <strong>fine</strong> prenotazione</span>
+                </span>
             </div>
-            <div><label>Giorno</label><br><input type="date" name="giorno" value="<?= $val['giorno'] ?>" required style="width:100%"></div>
-            <div><label>Dalle</label><br><input type="time" name="ora_inizio" id="ora_inizio" value="<?= $val['ora_inizio'] ?>" required style="width:100%"></div>
-            <div><label>Alle</label><br><input type="time" name="ora_fine" id="ora_fine" value="<?= $val['ora_fine'] ?>" required style="width:100%"></div>
-            <div><label>Note</label><br><input type="text" name="note" value="<?= htmlspecialchars($val['note']) ?>" style="width:100%"></div>
-            <div style="display:flex; align-items:flex-end;">
-                <button type="submit" class="btn" style="background:#28a745; color:white; border:none; padding:10px; width:100%">
-                    <?= $edit_id ? "Aggiorna" : "Salva" ?>
+
+            <!-- Riga 2: note + salva -->
+            <div style="display:flex; gap:10px;">
+                <input type="text" name="note" value="<?= htmlspecialchars($val['note']) ?>" placeholder="Note facoltative (es. Classe 3A, n° alunni…)" style="flex:1; min-width:0;">
+                <button type="submit" class="btn" style="background:#28a745; color:white; border:none; padding:9px 22px; white-space:nowrap; flex-shrink:0;">
+                    <?= $edit_id ? "✔ Aggiorna" : "✔ Salva" ?>
                 </button>
             </div>
         </form>
@@ -260,7 +412,7 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
 
 <div class="no-print" style="margin-top:20px; padding-top:15px; border-top:1px solid #eee; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
     <div style="font-size:13px; color:#666; line-height:1.8;">
-         Avola (SR) – Sviluppato da <strong style="color:#333;">Sebastiano Basile</strong> | 
+         Avola (SR) – Sviluppato da Sebastiano <strong style="color:#333;">Basile</strong> | 
         <span style="font-size:11px;">v2.0 &middot; Open source &middot; Licenza MIT</span>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
