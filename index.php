@@ -184,6 +184,18 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
     </section>
     <?php endif; ?>
 
+    <!-- Tab Lista / Calendario -->
+    <div class="no-print" style="display:flex; border-bottom:2px solid #dee2e6; margin-bottom:14px;">
+        <a href="index.php<?= $filtro_aula ? '?filtro_aula='.urlencode($filtro_aula) : '' ?>"
+           style="padding:8px 20px; font-size:.875rem; font-weight:700; color:#0056b3; text-decoration:none; border-bottom:3px solid #0056b3; margin-bottom:-2px;">
+            📋 Lista
+        </a>
+        <a href="calendario.php<?= $filtro_aula ? '?filtro_aula='.urlencode($filtro_aula) : '' ?>"
+           style="padding:8px 20px; font-size:.875rem; font-weight:700; color:#555; text-decoration:none; border-bottom:3px solid transparent; margin-bottom:-2px;">
+            📆 Calendario
+        </a>
+    </div>
+
     <div class="filtro-stampa no-print">
         <label><b>Filtra per aula:</b></label>
         <select onchange="location.href='index.php?filtro_aula=' + this.value" style="padding:5px; border-radius:4px;">
