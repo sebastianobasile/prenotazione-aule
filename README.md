@@ -18,7 +18,7 @@
 
 | Tabellone prenotazioni | Configurazione Admin | Stampa PDF | Vista Calendario |
 |---|---|---|---|
-| ![Tabellone](screenshots/tabellone.jpg) | ![Admin](screenshots/admin.jpg) | ![Stampa](screenshots/stampa.jpg) | ![Calendario](screenshots/calendario.jpg) |
+| ![Tabellone](screenshots/Tabellone.jpg) | ![Admin](screenshots/admin.jpg) | ![Stampa](screenshots/stampa.jpg) | ![Calendario](screenshots/calendario.jpg) |
 
 ---
 
