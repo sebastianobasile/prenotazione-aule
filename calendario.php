@@ -35,7 +35,16 @@ $num_ore = $ora_max - $ora_min;
 $mappa = [];
 foreach ($prenotazioni as $p) $mappa[$p['aula']][$p['giorno']][] = $p;
 $giorni_ita = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
-$oggi_str = date('Y-m-d');
+$oggi_str   = date('Y-m-d');
+$vista      = ($_GET['vista'] ?? 'settimana') === 'mese' ? 'mese' : 'settimana';
+
+// Navigazione mese
+$mese_offset = (int)($_GET['m'] ?? 0);
+$mese_base   = new DateTime('first day of this month');
+$mese_base->modify("{$mese_offset} month");
+$mese_anno   = (int)$mese_base->format('Y');
+$mese_num    = (int)$mese_base->format('n');
+$mesi_ita    = ['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 
 function pct(string $t, int $mn, int $no): float {
     [$h, $m] = explode(':', $t);
@@ -103,24 +112,40 @@ function pct(string $t, int $mn, int $no): float {
         </div>
     </header>
 
-    <!-- Tabs -->
-    <div class="tab-bar">
-        <a href="index.php<?= $filtro ? '?filtro_aula='.urlencode($filtro) : '' ?>">📋 Lista</a>
-        <a href="calendario.php<?= $filtro ? '?filtro_aula='.urlencode($filtro) : '' ?>" class="attivo">📆 Calendario</a>
+    <!-- Tabs Lista / Calendario + switch Settimana / Mese -->
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #dee2e6; margin-bottom:18px; flex-wrap:wrap; gap:8px;">
+        <div class="tab-bar" style="border:none; margin:0;">
+            <a href="index.php<?= $filtro ? '?filtro_aula='.urlencode($filtro) : '' ?>">📋 Lista</a>
+            <a href="calendario.php<?= $filtro ? '?filtro_aula='.urlencode($filtro) : '' ?>" class="attivo">📆 Calendario</a>
+        </div>
+        <div style="display:flex; gap:4px; margin-bottom:2px;">
+            <a href="?vista=settimana<?= $filtro?'&filtro_aula='.urlencode($filtro):'' ?>"
+               style="padding:5px 14px; font-size:.8rem; font-weight:700; text-decoration:none; border-radius:4px;
+                      <?= $vista==='settimana' ? 'background:#0056b3; color:white;' : 'background:#f1f5f9; color:#555; border:1px solid #dee2e6;' ?>">
+                Settimana
+            </a>
+            <a href="?vista=mese<?= $filtro?'&filtro_aula='.urlencode($filtro):'' ?>"
+               style="padding:5px 14px; font-size:.8rem; font-weight:700; text-decoration:none; border-radius:4px;
+                      <?= $vista==='mese' ? 'background:#0056b3; color:white;' : 'background:#f1f5f9; color:#555; border:1px solid #dee2e6;' ?>">
+                Mese
+            </a>
+        </div>
     </div>
+
+    <?php if ($vista === 'settimana'): ?>
 
     <!-- Navigazione settimana -->
     <div class="cal-nav">
         <div class="cal-nav-left">
-            <a href="?w=<?= $offset-1 . ($filtro ? '&filtro_aula='.urlencode($filtro) : '') ?>" class="btn-nav">◀ Prec.</a>
+            <a href="?vista=settimana&w=<?= $offset-1 . ($filtro ? '&filtro_aula='.urlencode($filtro) : '') ?>" class="btn-nav">◀ Prec.</a>
             <?php if ($offset !== 0): ?>
-                <a href="?w=0<?= $filtro ? '&filtro_aula='.urlencode($filtro) : '' ?>" class="btn-nav">Oggi</a>
+                <a href="?vista=settimana&w=0<?= $filtro ? '&filtro_aula='.urlencode($filtro) : '' ?>" class="btn-nav">Oggi</a>
             <?php endif; ?>
-            <a href="?w=<?= $offset+1 . ($filtro ? '&filtro_aula='.urlencode($filtro) : '') ?>" class="btn-nav">Succ. ▶</a>
+            <a href="?vista=settimana&w=<?= $offset+1 . ($filtro ? '&filtro_aula='.urlencode($filtro) : '') ?>" class="btn-nav">Succ. ▶</a>
             <h2>Settimana <?= $lunedi->format('d/m') ?> — <?= $sabato->format('d/m/Y') ?></h2>
         </div>
         <div>
-            <select onchange="location.href='?w=<?= $offset ?>'+(this.value?'&filtro_aula='+encodeURIComponent(this.value):'')"
+            <select onchange="location.href='?vista=settimana&w=<?= $offset ?>'+(this.value?'&filtro_aula='+encodeURIComponent(this.value):'')"
                     style="padding:6px 10px; border:1px solid #dee2e6; border-radius:4px; font-size:.875rem;">
                 <option value="">— Tutte le aule —</option>
                 <?php foreach ($orari_aule as $n => $c): ?>
@@ -128,7 +153,7 @@ function pct(string $t, int $mn, int $no): float {
                 <?php endforeach; ?>
             </select>
             <?php if ($filtro): ?>
-                <a href="?w=<?= $offset ?>" style="font-size:.8rem; color:#dc3545; text-decoration:none; margin-left:8px;">✕ Rimuovi</a>
+                <a href="?vista=settimana&w=<?= $offset ?>" style="font-size:.8rem; color:#dc3545; text-decoration:none; margin-left:8px;">✕ Rimuovi</a>
             <?php endif; ?>
         </div>
     </div>
@@ -231,7 +256,102 @@ function pct(string $t, int $mn, int $no): float {
             <?php endforeach; ?>
             </tbody>
         </table>
+    </div><!-- /cal-scroll -->
+
+    <?php else: ?>
+    <!-- ══════════════════ VISTA MENSILE ══════════════════ -->
+
+    <div class="cal-nav">
+        <div class="cal-nav-left">
+            <a href="?vista=mese&m=<?= $mese_offset-1 . ($filtro?'&filtro_aula='.urlencode($filtro):'') ?>" class="btn-nav">◀ Prec.</a>
+            <?php if ($mese_offset !== 0): ?>
+                <a href="?vista=mese&m=0<?= $filtro?'&filtro_aula='.urlencode($filtro):'' ?>" class="btn-nav">Oggi</a>
+            <?php endif; ?>
+            <a href="?vista=mese&m=<?= $mese_offset+1 . ($filtro?'&filtro_aula='.urlencode($filtro):'') ?>" class="btn-nav">Succ. ▶</a>
+            <h2><?= $mesi_ita[$mese_num] ?> <?= $mese_anno ?></h2>
+        </div>
+        <div>
+            <select onchange="location.href='?vista=mese&m=<?= $mese_offset ?>'+(this.value?'&filtro_aula='+encodeURIComponent(this.value):'')"
+                    style="padding:6px 10px; border:1px solid #dee2e6; border-radius:4px; font-size:.875rem;">
+                <option value="">— Tutte le aule —</option>
+                <?php foreach ($orari_aule as $n => $c): ?>
+                    <option value="<?= htmlspecialchars($n) ?>" <?= $filtro==$n?'selected':'' ?>><?= htmlspecialchars($n) ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php if ($filtro): ?>
+                <a href="?vista=mese&m=<?= $mese_offset ?>" style="font-size:.8rem; color:#dc3545; text-decoration:none; margin-left:8px;">✕ Rimuovi</a>
+            <?php endif; ?>
+        </div>
     </div>
+
+    <?php
+    $primo_giorno    = new DateTime("{$mese_anno}-{$mese_num}-01");
+    $ultimo_giorno   = (clone $primo_giorno)->modify('last day of this month');
+    $giorni_nel_mese = (int)$ultimo_giorno->format('d');
+    $start_dow       = (int)$primo_giorno->format('N');
+    ?>
+
+    <style>
+        .mese-grid { display:grid; grid-template-columns:repeat(6,1fr); border:1px solid #dee2e6; border-radius:8px; overflow:hidden; }
+        .mese-hdr  { background:#0056b3; color:white; text-align:center; font-size:.72rem; font-weight:700; padding:8px 4px; text-transform:uppercase; letter-spacing:.4px; }
+        .mese-cell { border-right:1px solid #e9ecef; border-bottom:1px solid #e9ecef; min-height:88px; padding:5px; background:white; }
+        .mese-cell:nth-child(6n+7) { border-right:none; }
+        .mese-cell.fuori-mese { background:#f8fafc; }
+        .mese-cell.oggi-cell  { background:#eff6ff; }
+        .mese-num { font-size:.72rem; font-weight:800; color:#94a3b8; width:22px; height:22px; display:flex; align-items:center; justify-content:center; border-radius:50%; margin-bottom:3px; }
+        .mese-num.oggi-num { background:#0056b3; color:white; }
+        .mese-pill { display:block; font-size:.68rem; font-weight:700; color:white; border-radius:3px; padding:1px 5px; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .mese-pill:hover { filter:brightness(1.1); }
+        .mese-more { font-size:.65rem; color:#0056b3; font-weight:600; margin-top:2px; }
+    </style>
+
+    <div class="mese-grid">
+        <?php foreach (['Lun','Mar','Mer','Gio','Ven','Sab'] as $g): ?>
+            <div class="mese-hdr"><?= $g ?></div>
+        <?php endforeach; ?>
+
+        <?php
+        // Celle vuote prima del primo giorno (salta domeniche)
+        $start = $start_dow === 7 ? 6 : $start_dow - 1;
+        for ($v = 0; $v < $start; $v++) echo '<div class="mese-cell fuori-mese"></div>';
+
+        for ($d = 1; $d <= $giorni_nel_mese; $d++):
+            $data_str = sprintf('%04d-%02d-%02d', $mese_anno, $mese_num, $d);
+            $dow_cell = (int)(new DateTime($data_str))->format('N');
+            if ($dow_cell === 7) continue; // salta domenica
+            $is_oggi  = $data_str === $oggi_str;
+
+            $pren_giorno = [];
+            foreach ($aule_vis as $na => $ca) {
+                if (!$ca) continue;
+                foreach ($mappa[$na][$data_str] ?? [] as $bk)
+                    $pren_giorno[] = ['bk'=>$bk, 'colore'=>$ca['colore']??'#0056b3'];
+            }
+            usort($pren_giorno, fn($a,$b) => strcmp($a['bk']['ora_inizio'],$b['bk']['ora_inizio']));
+        ?>
+        <div class="mese-cell <?= $is_oggi?'oggi-cell':'' ?>">
+            <div class="mese-num <?= $is_oggi?'oggi-num':'' ?>"><?= $d ?></div>
+            <?php foreach (array_slice($pren_giorno,0,3) as $item): ?>
+                <span class="mese-pill" style="background:<?= htmlspecialchars($item['colore']) ?>;"
+                      title="<?= htmlspecialchars($item['bk']['docente']) ?> · <?= $item['bk']['ora_inizio'] ?>–<?= $item['bk']['ora_fine'] ?><?= $item['bk']['note']?' · '.$item['bk']['note']:'' ?>">
+                    <?= $item['bk']['ora_inizio'] ?> <?= htmlspecialchars(mb_substr($item['bk']['docente'],0,11)) ?>
+                </span>
+            <?php endforeach; ?>
+            <?php if (count($pren_giorno)>3): ?>
+                <div class="mese-more">+<?= count($pren_giorno)-3 ?> altri</div>
+            <?php endif; ?>
+        </div>
+        <?php endfor; ?>
+
+        <?php
+        $last_dow = (int)$ultimo_giorno->format('N');
+        if ($last_dow === 7) $last_dow = 6;
+        for ($v = $last_dow; $v < 6; $v++) echo '<div class="mese-cell fuori-mese"></div>';
+        ?>
+    </div>
+
+    <?php endif; ?>
+    <!-- ══════════════════ fine viste ══════════════════ -->
 
     <!-- Footer crediti -->
     <div class="no-print" style="margin-top:20px; padding-top:15px; border-top:1px solid #eee; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
