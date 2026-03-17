@@ -1,0 +1,5 @@
+# Blocca accesso diretto ai file sensibili
+<FilesMatch "\.(json|txt)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
