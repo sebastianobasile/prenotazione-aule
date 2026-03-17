@@ -138,7 +138,7 @@ Clicca **Stampa** dal tabellone: il browser apre la finestra di stampa con layou
 
 Questo software è gratuito e open source. Se ti è utile, considera un contributo:
 
-**[→ Sostieni su PayPal](https://paypal.me/sebastianobasile)**
+**[→ Sostieni su PayPal](https://paypal.me/superscuola)**
 
 ---
 
