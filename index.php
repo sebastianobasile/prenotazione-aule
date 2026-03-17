@@ -245,7 +245,6 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
         <?php endforeach; ?>
         </tbody>
     </table>
-</div>
 
 <div class="no-print" style="margin-top:20px; padding-top:15px; border-top:1px solid #eee; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
     <div style="font-size:13px; color:#666; line-height:1.8;">
@@ -253,12 +252,14 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
         <span style="font-size:11px;">v2.0 &middot; Open source &middot; Licenza MIT</span>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <a href="https://superscuola.com" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #1d4ed8;color:#1d4ed8;">🌐 superscuola.com</a>
+        <a href="https://capuanadeamicis.it" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #1d4ed8;color:#1d4ed8;">🌐 capuanadeamicis.it</a>
         <a href="https://t.me/sostegno"   target="_blank" style="display:inline-flex;align-i tems:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #0088cc;color:#0088cc;">✈️ Telegram</a>
         <a href="https://github.com/sebastianobasile" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #24292f;color:#24292f;">💻 GitHub</a>
         <a href="https://paypal.me/superscuola" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #003087;color:#003087;">💙 Sostieni il progetto</a>
     </div>
 </div>
+
+</div><!-- /container -->
 
 <script>
 window.onload = function() {
