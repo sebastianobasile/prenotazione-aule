@@ -256,7 +256,7 @@ uasort($prenotazioni, function($a, $b) use ($nomi_aule_ordine) {
         <a href="https://superscuola.com" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #1d4ed8;color:#1d4ed8;">🌐 superscuola.com</a>
         <a href="https://t.me/sostegno"   target="_blank" style="display:inline-flex;align-i tems:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #0088cc;color:#0088cc;">✈️ Telegram</a>
         <a href="https://github.com/sebastianobasile" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #24292f;color:#24292f;">💻 GitHub</a>
-        <a href="https://paypal.me/sebastianobasile" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #003087;color:#003087;">💙 Sostieni il progetto</a>
+        <a href="https://paypal.me/superscuola" target="_blank" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;border:1.5px solid #003087;color:#003087;">💙 Sostieni il progetto</a>
     </div>
 </div>
 
