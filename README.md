@@ -5,6 +5,7 @@
 [![Licenza MIT](https://img.shields.io/badge/Licenza-MIT-blue.svg)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php)](https://php.net)
 [![Demo](https://img.shields.io/badge/Demo-Live-28a745?logo=google-chrome)](https://superscuola.com/prenotazionicapuana)
+![Scuole italiane](https://img.shields.io/badge/Destinatari-Scuole%20italiane-red)
 
 ---
 
