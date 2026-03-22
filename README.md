@@ -45,7 +45,7 @@
 
 ### Procedura
 
-1. **Scarica** il repository o il [pacchetto ZIP](../../releases/latest)
+1. **Scarica** il repository
 
 2. **Rinomina** i file di configurazione:
    ```
