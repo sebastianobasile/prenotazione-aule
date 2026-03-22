@@ -156,6 +156,6 @@ Sviluppato per **I.C. Capuana-De Amicis — Avola (SR)**
 
 ## 📄 Licenza
 
-Distribuito con licenza **MIT**. Vedi il file [LICENSE](LICENSE) per i dettagli.
+Distribuito con licenza **GNU GENERAL PUBLIC LICENSE** Version 3.
 
 Sei libero di usare, modificare e distribuire questo software, anche per uso commerciale, a condizione di mantenere il riferimento all'autore originale.
