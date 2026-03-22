@@ -2,7 +2,7 @@
 
 > Sistema web per la gestione e prenotazione di aule, laboratori e spazi scolastici — semplice, sicuro, senza database.
 
-[![Licenza MIT](https://img.shields.io/badge/Licenza-MIT-blue.svg)](LICENSE)
+[![Licenza: GPL v3](https://img.shields.io/badge/Licenza-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php)](https://php.net)
 [![Demo](https://img.shields.io/badge/Demo-Live-28a745?logo=google-chrome)](https://superscuola.com/prenotazionicapuana)
 ![Scuole italiane](https://img.shields.io/badge/Destinatari-Scuole%20italiane-red)
